@@ -1,0 +1,111 @@
+<div class="card">
+    <div class="card-header">Cart Summary</div>
+    <div class="card-body">
+        <div *ngIf="!isOrderCreated && !items.length">
+            <h5 style="margin-bottom: 20px">Your cart is empty!</h5>
+        </div>
+        <div *ngIf="isOrderCreated">
+            <h5 style="margin-bottom: 20px">Order successfully created with id {{ order.id }}</h5>
+        </div>
+        <ng-container *ngIf="(shoppingItems$ | async).length">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr *ngFor="let item of shoppingItems$ | async">
+                        <td>{{ item.product.productName }}</td>
+                        <td>
+                            <select
+                                (change)="onQuantityChange(item)"
+                                [(ngModel)]="item.quantity"
+                            >
+                                <option
+                                    [value]="quantity"
+                                    *ngFor="let quantity of quantities"
+                                >
+                                    {{ quantity }}
+                                </option>
+                            </select>
+                        </td>
+                        <td>{{ item.price | currency }}</td>
+                        <td>
+                            <a
+                                style="cursor: pointer"
+                                (click)="removeItemFromCart(item.id)"
+                                title="Remove"
+                                ><i
+                                    class="fa fa-times"
+                                    aria-hidden="true"
+                                    style="color: red"
+                                ></i
+                            ></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Total discount</b></td>
+                        <td></td>
+                        <td>
+                            <b>{{ cartDiscountTotal * 100 }} %</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Total off price</b></td>
+                        <td></td>
+                        <td>
+                            <b>{{ cartOffPriceTotal | currency }}</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Subtotal</b></td>
+                        <td></td>
+                        <td>
+                            <b>{{ cartSubtotal | currency }}</b>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <ng-container *ngIf="promotionIsValidated && !promotionisValid">
+                <div>
+                    <ng-container *ngIf="promotionValidationResult.valueOf() === 1"><span style="color:red; font-size: small;">Promotion code invalid</span></ng-container>
+                    <ng-container *ngIf="promotionValidationResult.valueOf() === 2"><span style="color:red; font-size: small;">Promotion is already applied</span></ng-container>
+                    <ng-container *ngIf="promotionValidationResult.valueOf() === 3"><span style="color:red; font-size: small;">Promotion code can't be used in conjuction with other codes</span></ng-container>
+                </div>
+            </ng-container>
+            <div><label>Applied promotions:</label>
+                    <ng-container *ngFor="let item of promotionItems$ | async">
+                        &nbsp;<span>{{ item.label }}</span>
+                    </ng-container>
+            </div>
+            </ng-container>
+            <div class="input-group mb-3">
+                <input
+                    id="promotionCode"
+                    name="promotionCode"
+                    [(ngModel)]="promotionCode"
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter promotion code"
+                    aria-label="Recipient's username"
+                    aria-describedby="button-addon2"
+                />
+                <button
+                    class="btn-secondary"
+                    type="button"
+                    id="button-addon2"
+                    (click)="addPromotion()"
+                >
+                    Add promotion
+                </button>
+            </div>
+        <button type="button" class="btn btn-primary" routerLink="/">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> Continue
+            Shopping
+        </button>
+        <button
+            type="button"
+            class="btn btn-success"
+            (click)="proceedToCheckout()"
+            *ngIf="(shoppingItems$ | async).length"
+        >
+            Proceed Checkout
+        </button>
+    </div>
+</div>
