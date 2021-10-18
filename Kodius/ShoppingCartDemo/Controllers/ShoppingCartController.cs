@@ -38,6 +38,10 @@ namespace ShoppingCartDemo.Controllers
         [Route("promotion")]
         public async Task<IActionResult> GetPromotionCode(string code)
         {
+            if (string.IsNullOrEmpty(code))
+            {
+                BadRequest();
+            }
             PromotionCodeOutput output = new PromotionCodeOutput();
             var promotion = await _shoppingCartManager.ValidatePromotionCodeAsync(code);
             if (promotion != null)

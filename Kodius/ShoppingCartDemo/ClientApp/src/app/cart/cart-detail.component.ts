@@ -64,8 +64,6 @@ export class CartDetailComponent implements OnInit {
         this.cartOffPriceTotal = this.promotions.reduce((accumulator, currentValue) => accumulator + currentValue.offprice, 0);
         this.cartSubtotal = (this.cartSubtotal - (this.cartSubtotal * this.cartDiscountTotal));
         this.cartSubtotal = this.cartSubtotal - this.cartOffPriceTotal;
-        console.log('offprice total: ' + this.cartOffPriceTotal);
-        console.log('discount total: ' + this.cartDiscountTotal);
     }
 
     onQuantityChange(shoppingItem: ShoppingItem) {
@@ -102,7 +100,7 @@ export class CartDetailComponent implements OnInit {
             promotion.label = result.code.label;
             promotion.offprice = result.code.offprice;
             promotion.useInConjuction = result.code.useInConjuction;
-            const canAddCodes = this.promotions.filter(x => x.useInConjuction === true).length === 0;
+            const canAddCodes = this.promotions.filter(x => x.useInConjuction === false).length === 0;
             if (!canAddCodes) {
                 this.promotionisValid = false;
                 this.promotionValidationResult = PromotionValidation.InvalidInConjuctionWithOtherCodes;

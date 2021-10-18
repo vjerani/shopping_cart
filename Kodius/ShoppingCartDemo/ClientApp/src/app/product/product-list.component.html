@@ -6,7 +6,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">{{ product.productName }}</h5>
-            <p>Price: {{ product.productPrice | currency}}</p>
+            <p>Price: {{ product.productPrice | currency:'EUR':true }}</p>
             <button type="button" class="btn btn-info btn-sm" (click)="addToCart(product)">Add to Cart <i class="fa fa-shopping-cart"></i></button>
           </div>
         </div>

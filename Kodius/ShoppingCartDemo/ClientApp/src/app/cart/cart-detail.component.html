@@ -25,7 +25,7 @@
                                 </option>
                             </select>
                         </td>
-                        <td>{{ item.price | currency }}</td>
+                        <td>{{ item.price | currency:'EUR':true }}</td>
                         <td>
                             <a
                                 style="cursor: pointer"
@@ -50,14 +50,14 @@
                         <td><b>Total off price</b></td>
                         <td></td>
                         <td>
-                            <b>{{ cartOffPriceTotal | currency }}</b>
+                            <b>{{ cartOffPriceTotal | currency:'EUR':true }}</b>
                         </td>
                     </tr>
                     <tr>
                         <td><b>Subtotal</b></td>
                         <td></td>
                         <td>
-                            <b>{{ cartSubtotal | currency }}</b>
+                            <b>{{ cartSubtotal | currency:'EUR':true }}</b>
                         </td>
                     </tr>
                 </tbody>
